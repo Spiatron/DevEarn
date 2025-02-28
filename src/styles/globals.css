@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Khadash-eng";
+    src: url("/fonts/Khadash_ENG.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "Khadash-urdu";
+    src: url("/fonts/khadash-arabic-demo.arabic.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "Kufi";
+    src: url("/fonts/Reem Kufi.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+  
