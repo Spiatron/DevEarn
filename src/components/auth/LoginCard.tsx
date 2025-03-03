@@ -1,66 +1,113 @@
+import React from "react";
 import { Card, CardHeader, CardBody } from "@heroui/card";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
-import { FaDev } from "react-icons/fa";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useState } from "react";
+import { Divider } from "@heroui/divider";
+import { Icon } from "@iconify/react";
 
 export default function LoginCard() {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const isPasswordValid = password.length >= 8;
+  const isFormValid = username.trim() !== "" && isPasswordValid;
+
+  const passwordErrorMessage = password.length > 0 && !isPasswordValid 
+    ? "Password must be at least 8 characters long" 
+    : undefined;
 
   return (
-    <div className="flex items-center justify-center">
-      <Card className="w-full max-w-md sm:w-96 p-6 shadow-lg rounded-xl bg-[#e5e5e5] dark:bg-[#18181b]">
-        <CardHeader className="text-center text-xl font-bold justify-center">
-          <Link
-            className="flex items-center gap-1 justify-center"
-            color="foreground"
-            href="/"
-          >
-            <FaDev size={45} className="leading-none" />
-            <p className="font-bold text-inherit text-xl leading-[normal]">
-              Earn
-            </p>
-          </Link>
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <Card className="w-full sm:w-[30rem] max-w-2xl p-8 rounded-2xl bg-[#18181b] text-white shadow-2xl">
+        <CardHeader className="flex flex-col gap-1 text-center">
+          <p className="text-xl text-default-500">
+            Welcome back! Please enter your details.
+          </p>
         </CardHeader>
-        <CardBody className="space-y-4">
-          <Input type="text" label="Username or Email" fullWidth />
-          <div className="relative">
-            <Input
-              label="Password"
-              fullWidth
-              type={showPassword ? "text" : "password"}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-300"
-            >
-              {showPassword ? <FaEye size={18} /> : <FaEyeSlash size={18} />}
-            </button>
-          </div>
-          <div className="flex justify-end text-sm">
+
+        <CardBody className="space-y-6">
+          <Input
+            isRequired
+            label="Username or Email Address"
+            placeholder="Enter your username or email"
+            value={username}
+            variant="bordered"
+            onValueChange={setUsername}
+          />
+          
+          <Input
+            isRequired
+            endContent={
+              <button
+                className="focus:outline-none"
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <Icon className="text-2xl text-default-400" icon="solar:eye-closed-linear" />
+                ) : (
+                  <Icon className="text-2xl text-default-400" icon="solar:eye-bold" />
+                )}
+              </button>
+            }
+            errorMessage={passwordErrorMessage}
+            isInvalid={password.length > 0 && !isPasswordValid}
+            label="Password"
+            placeholder="Enter your password"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            variant="bordered"
+            onValueChange={setPassword}
+          />
+
+          <div className="flex justify-end">
             <Link
-              href="/forgetPassword"
-              className=" text-black dark:text-white text-md"
+              className="text-small"
+              href="forgetPassword"
+              size="sm"
             >
-              Forget Password?
+              Forgot password?
             </Link>
           </div>
+
           <Button
-            className="bg-[#001219] text-white dark:bg-white dark:text-black text-md"
-            fullWidth
+            className="w-full"
+            color="primary"
+            isDisabled={!isFormValid}
+            size="lg"
           >
-            Sign in
+            Log In
           </Button>
-          <div className="text-center text-lg">
-            Don't have an account?{" "}
-            <Link
-              href="/signup"
-              className="text-black dark:text-white font-bold text-lg"
+
+          <div className="flex items-center gap-4">
+            <Divider className="flex-1" />
+            <span className="text-default-500 text-small">OR</span>
+            <Divider className="flex-1" />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Button
+              className="w-full"
+              startContent={<Icon icon="flat-color-icons:google" width={24} />}
+              variant="bordered"
             >
-              Register
+              Continue with Google
+            </Button>
+            <Button
+              className="w-full"
+              startContent={<Icon className="text-default-500" icon="fe:github" width={24} />}
+              variant="bordered"
+            >
+              Continue with GitHub
+            </Button>
+          </div>
+
+          <div className="text-center">
+            Need to create an account?{" "}
+            <Link href="/signup" className="text-blue-400">
+              Sign Up
             </Link>
           </div>
         </CardBody>
